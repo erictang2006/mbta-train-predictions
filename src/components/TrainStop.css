@@ -1,0 +1,33 @@
+/* src/components/TrainStop/TrainStop.css */
+.train-stop {
+    background-color: #70f982;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .station-label {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .destination {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
+  .destination-label {
+    color: rgb(0, 109, 0); /* Adjust color based on your actual color scheme */
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .times {
+    font-size: 16px;
+    color: #000000;
+    font-weight: 600;
+  }
