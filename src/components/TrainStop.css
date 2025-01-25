@@ -111,3 +111,29 @@ input:checked + .slider:before {
   color: #4CAF50; /* You can choose a color that matches your design */
 }
 
+.edit-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.edit-stops {
+  margin: 20px;
+}
+
+.edit-stop {
+  margin-bottom: 10px;
+}
+
+
