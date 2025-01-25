@@ -1,0 +1,37 @@
+.train-stop {
+  background-color: #70f982;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.station-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.destination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.destination-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.times {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}

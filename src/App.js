@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import TrainStop from "./components/TrainStop";
-import GreenLineMap from "./images/GreenLine.png";
+import Header from "./components/Header/Header";
+import TrainStop from "./components/TrainStop/TrainStop";
+import MapView from "./components/MapView/MapView";
+import EditMode from "./components/EditMode/EditMode";
+import "./styles/App.css";
 
 function App() {
   const [direction, setDirection] = useState("Boston College");
@@ -21,16 +24,6 @@ function App() {
     "place-harvd",
   ]);
 
-  const toggleDirection = () => {
-    setDirection((currentDirection) =>
-      currentDirection === "Boston College" ? "Government Center" : "Boston College"
-    );
-  };
-
-  const toggleEditMode = () => {
-    setIsEditMode(!isEditMode);
-  };
-
   const stops = [
     { stopId: "place-boyls", label: "Boylston" },
     { stopId: "place-armnl", label: "Arlington" },
@@ -46,9 +39,11 @@ function App() {
     { stopId: "place-harvd", label: "Harvard Avenue" },
   ];
 
-  const displayedStops = stops.filter((stop) => selectedStops.includes(stop.stopId));
-  const orderedStops =
-    direction === "Boston College" ? displayedStops : [...displayedStops].reverse();
+  const toggleDirection = () => {
+    setDirection((currentDirection) =>
+      currentDirection === "Boston College" ? "Government Center" : "Boston College"
+    );
+  };
 
   const handleStationSelection = (stopId) => {
     setSelectedStops((prevSelectedStops) =>
@@ -66,76 +61,41 @@ function App() {
     setSelectedStops(stops.map((stop) => stop.stopId));
   };
 
+  const displayedStops = stops.filter((stop) => selectedStops.includes(stop.stopId));
+  const orderedStops =
+    direction === "Boston College" ? displayedStops : [...displayedStops].reverse();
+
   return (
     <div className="App">
-      <h1>MBTA Train Predictions</h1>
-      <div className="button-container">
-        <button className="map-button" onClick={() => setIsMapMode(!isMapMode)}>
-          {isMapMode ? "Close Map" : "Map"}
-        </button>
-        <button className="edit-button" onClick={toggleEditMode}>
-          {isEditMode ? "Done" : "Edit"}
-        </button>
-      </div>
-
-      <div className="toggle-container">
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={direction === "Government Center"}
-            onChange={toggleDirection}
+      <Header
+        isEditMode={isEditMode}
+        toggleEditMode={() => setIsEditMode(!isEditMode)}
+        isMapMode={isMapMode}
+        toggleMapMode={() => setIsMapMode(!isMapMode)}
+      />
+      <div className="content">
+        {isMapMode ? (
+          <MapView />
+        ) : isEditMode ? (
+          <EditMode
+            stops={stops}
+            selectedStops={selectedStops}
+            handleStationSelection={handleStationSelection}
+            deselectAllStops={deselectAllStops}
+            selectAllStops={selectAllStops}
           />
-          <span className="slider round"></span>
-        </label>
-        <span className="direction-label">Direction: {direction}</span>
-      </div>
-
-      {isMapMode ? (
-        <div className="map-container">
-          <h2>Green Line Map</h2>
-          <img
-            src={GreenLineMap}
-            alt="Green Line Map"
-            className="map-image"
-          />
-        </div>
-      ) : isEditMode ? (
-        <div className="edit-stops">
-          <div className="select-deselect-container">
-            <button className="deselect-all-button" onClick={deselectAllStops}>
-              Deselect All
-            </button>
-            <button className="select-all-button" onClick={selectAllStops}>
-              Select All
-            </button>
-          </div>
-          {stops.map((stop) => (
-            <div
+        ) : (
+          orderedStops.map((stop) => (
+            <TrainStop
               key={stop.stopId}
-              className="edit-stop"
-              onClick={() => handleStationSelection(stop.stopId)}
-            >
-              <input
-                type="checkbox"
-                id={stop.stopId}
-                checked={selectedStops.includes(stop.stopId)}
-                onChange={() => handleStationSelection(stop.stopId)}
-              />
-              <label htmlFor={stop.stopId}>{stop.label}</label>
-            </div>
-          ))}
-        </div>
-      ) : (
-        orderedStops.map((stop) => (
-          <TrainStop
-            key={stop.stopId}
-            stopId={stop.stopId}
-            route="Green-B"
-            label={stop.label}
-            directionFilter={direction}
-          />
-        ))
-      )}
+              stopId={stop.stopId}
+              route="Green-B"
+              label={stop.label}
+              directionFilter={direction}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }

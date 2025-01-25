@@ -1,36 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './TrainStop.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { calculateTimeDifference } from "../../utils/timeUtils";
+import "./TrainStop.css";
 
 function TrainStop({ stopId, route, label, directionFilter }) {
   const [predictions, setPredictions] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const calculateTimeDifference = (time) => {
-    const now = new Date();
-    const arrivalTime = new Date(time);
-    const diffInMs = arrivalTime - now;
-    return Math.floor(diffInMs / 60000) >= 0 ? Math.floor(diffInMs / 60000) : null;
-  };
-
   useEffect(() => {
     const fetchPredictions = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://api-v3.mbta.com/predictions', {
-          params: {
-            'filter[stop]': stopId,
-            'filter[route]': route,
-            'include': 'trip',
-          },
-          headers: {
-            'x-api-key': 'b54f97fc3cd749c6acf2aa59c8831fbb',
-          },
+        const response = await axios.get("https://api-v3.mbta.com/predictions", {
+          params: { "filter[stop]": stopId, "filter[route]": route, include: "trip" },
+          headers: { "x-api-key": "b54f97fc3cd749c6acf2aa59c8831fbb" },
         });
 
         const newPredictions = {};
         response.data.data.forEach((prediction) => {
-          const direction = prediction.attributes.direction_id === 0 ? 'Boston College' : 'Government Center';
+          const direction = prediction.attributes.direction_id === 0 ? "Boston College" : "Government Center";
           const timeDiff = calculateTimeDifference(prediction.attributes.arrival_time);
           if (timeDiff !== null && direction === directionFilter) {
             if (!newPredictions[direction]) newPredictions[direction] = [];
@@ -42,7 +30,7 @@ function TrainStop({ stopId, route, label, directionFilter }) {
 
         setPredictions(newPredictions);
       } catch (error) {
-        console.error('Failed to fetch predictions:', error);
+        console.error("Error fetching predictions:", error);
       } finally {
         setLoading(false);
       }

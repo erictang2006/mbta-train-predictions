@@ -1,17 +1,13 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-}
-
+/* App Container */
 .App {
-  max-width: 1200px;
+  font-family: Arial, sans-serif;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 20px;
 }
 
 h1 {
+  margin-left: 20px;
   font-size: 28px;
   color: #333;
 }
