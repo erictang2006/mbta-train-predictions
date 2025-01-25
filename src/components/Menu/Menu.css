@@ -1,0 +1,99 @@
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Larger spacing between rows */
+    padding: 30px;
+    align-items: center;
+  }
+  
+  .menu-row {
+    display: flex;
+    gap: 20px; /* Larger spacing between items */
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Slightly larger corners */
+    padding: 15px 30px; /* Increased padding for larger buttons */
+    font-size: 20px; /* Larger font size */
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background-color: #e9ecef;
+  }
+  
+  .menu-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; /* Larger circular icons */
+    height: 50px;
+    font-size: 18px; /* Larger font size for icons */
+    font-weight: bold;
+    border-radius: 50%; /* Ensures circular shape */
+    color: white;
+    text-align: center;
+    margin-right: 20px;
+  }
+  
+  .red-line .menu-icon {
+    background-color: #d9534f;
+  }
+  
+  .mattapan-trolley .menu-icon {
+    background-color: #d9534f;
+  }
+  
+  .orange-line .menu-icon {
+    background-color: #f0ad4e;
+  }
+  
+  .blue-line .menu-icon {
+    background-color: #337ab7;
+  }
+  
+  .green-line .menu-icon {
+    background-color: #5cb85c;
+    
+  }
+  
+  .green-line-options {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Increased spacing between Green Line branches */
+  }
+  
+  .green-b,
+  .green-c,
+  .green-d,
+  .green-e {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* Equal width and height for circles */
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #5cb85c;
+    border-radius: 50%; /* Makes them circular */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .green-b:hover,
+  .green-c:hover,
+  .green-d:hover,
+  .green-e:hover {
+    background-color: #347f34;
+  }
+  

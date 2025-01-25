@@ -1,12 +1,15 @@
 import React from "react";
-import GreenLineMap from "../../assets/images/GreenLine.png";
 import "./MapView.css";
 
-function MapView() {
+function MapView({ selectedMap }) {
   return (
     <div className="map-container">
-      <h2>Green Line Map</h2>
-      <img src={GreenLineMap} alt="Green Line Map" className="map-image" />
+      <h2>Route Map</h2>
+      {selectedMap ? (
+        <img src={selectedMap} alt="Route Map" className="map-image" />
+      ) : (
+        <p>No map available</p>
+      )}
     </div>
   );
 }

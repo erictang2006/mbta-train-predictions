@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import Header from "./components/Header/Header";
 import TrainStop from "./components/TrainStop/TrainStop";
 import MapView from "./components/MapView/MapView";
-import EditMode from "./components/EditMode/EditMode";
+import Menu from "./components/Menu/Menu";
+import GeneralMap from "./assets/images/GeneralMap.png"; // General map for the menu screen
+import GreenLineMap from "./assets/images/GreenLine.png";
+import RedLineMap from "./assets/images/RedLine.jpg";
+import OrangeLineMap from "./assets/images/OrangeLine.jpg";
 import "./styles/App.css";
+import "./components/EditMode/EditMode.css";
 
 function App() {
+  const [selectedRoute, setSelectedRoute] = useState(null); // Tracks selected route (e.g., Green-B)
+  const [selectedMap, setSelectedMap] = useState(GeneralMap); // Default map is the general map
+  const [isMapMode, setIsMapMode] = useState(false); // Toggles map view
   const [direction, setDirection] = useState("Boston College");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isMapMode, setIsMapMode] = useState(false);
   const [selectedStops, setSelectedStops] = useState([
     "place-boyls",
     "place-armnl",
@@ -61,9 +68,26 @@ function App() {
     setSelectedStops(stops.map((stop) => stop.stopId));
   };
 
-  const displayedStops = stops.filter((stop) => selectedStops.includes(stop.stopId));
-  const orderedStops =
-    direction === "Boston College" ? displayedStops : [...displayedStops].reverse();
+  const handleRouteSelect = (route) => {
+    setSelectedRoute(route);
+
+    // Assign map based on route selection
+    if (route === "Green-B") {
+      setSelectedMap(GreenLineMap);
+    } else if (route === "Red Line") {
+      setSelectedMap(RedLineMap);
+    }
+    else if (route === "Orange Line") {
+      setSelectedMap(OrangeLineMap);
+    }
+    setIsMapMode(false); // Ensure map mode is off until explicitly toggled
+  };
+
+  const goToMenu = () => {
+    setSelectedRoute(null); // Resets to the menu page
+    setIsMapMode(false); // Turns off the map view
+    setIsEditMode(false); // Turns off edit mode
+  };
 
   return (
     <div className="App">
@@ -72,28 +96,53 @@ function App() {
         toggleEditMode={() => setIsEditMode(!isEditMode)}
         isMapMode={isMapMode}
         toggleMapMode={() => setIsMapMode(!isMapMode)}
+        goToMenu={goToMenu} // New prop for Menu button
       />
       <div className="content">
-        {isMapMode ? (
-          <MapView />
-        ) : isEditMode ? (
-          <EditMode
-            stops={stops}
-            selectedStops={selectedStops}
-            handleStationSelection={handleStationSelection}
-            deselectAllStops={deselectAllStops}
-            selectAllStops={selectAllStops}
-          />
+        {selectedRoute ? (
+          isMapMode ? (
+            <MapView selectedMap={selectedMap} />
+          ) : isEditMode ? (
+            <div className="edit-stops">
+              <div className="select-deselect-container">
+                <button className="deselect-all-button" onClick={deselectAllStops}>
+                  Deselect All
+                </button>
+                <button className="select-all-button" onClick={selectAllStops}>
+                  Select All
+                </button>
+              </div>
+              {stops.map((stop) => (
+                <div
+                  key={stop.stopId}
+                  className="edit-stop"
+                  onClick={() => handleStationSelection(stop.stopId)}
+                >
+                  <input
+                    type="checkbox"
+                    id={stop.stopId}
+                    checked={selectedStops.includes(stop.stopId)}
+                    onChange={() => handleStationSelection(stop.stopId)}
+                  />
+                  <label htmlFor={stop.stopId}>{stop.label}</label>
+                </div>
+              ))}
+            </div>
+          ) : (
+            stops.map((stop) => (
+              <TrainStop
+                key={stop.stopId}
+                stopId={stop.stopId}
+                route="Green-B"
+                label={stop.label}
+                directionFilter={direction}
+              />
+            ))
+          )
+        ) : isMapMode ? (
+          <MapView selectedMap={selectedMap} />
         ) : (
-          orderedStops.map((stop) => (
-            <TrainStop
-              key={stop.stopId}
-              stopId={stop.stopId}
-              route="Green-B"
-              label={stop.label}
-              directionFilter={direction}
-            />
-          ))
+          <Menu onSelect={handleRouteSelect} toggleMap={() => setIsMapMode(true)} />
         )}
       </div>
     </div>

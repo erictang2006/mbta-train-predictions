@@ -17,6 +17,7 @@
     gap: 10px;
   }
   
+  .menu-button,
   .map-button,
   .edit-button {
     background-color: #28a745;
@@ -29,12 +30,21 @@
     transition: background-color 0.3s ease;
   }
   
-  .edit-button {
-    background-color: #ffc107;
+  .menu-button:hover,
+  .map-button:hover,
+  .edit-button:hover {
+    background-color: #218838;
+  }
+
+  .menu-button{
+    background-color: rgb(108, 108, 108);
+  }
+  .menu-button:hover{
+    background-color: rgb(64, 64, 64);
   }
   
-  .map-button:hover {
-    background-color: #218838;
+  .edit-button {
+    background-color: #ffc107;
   }
   
   .edit-button:hover {
