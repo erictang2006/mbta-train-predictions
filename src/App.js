@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TrainStop from "./components/TrainStop";
+import GreenLineMap from "./images/GreenLine.png";
 
 function App() {
   const [direction, setDirection] = useState("Boston College");
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isMapMode, setIsMapMode] = useState(false);
   const [selectedStops, setSelectedStops] = useState([
     "place-boyls",
     "place-armnl",
@@ -44,7 +46,6 @@ function App() {
     { stopId: "place-harvd", label: "Harvard Avenue" },
   ];
 
-  // Dynamically filter stops based on selectedStops
   const displayedStops = stops.filter((stop) => selectedStops.includes(stop.stopId));
   const orderedStops =
     direction === "Boston College" ? displayedStops : [...displayedStops].reverse();
@@ -52,25 +53,31 @@ function App() {
   const handleStationSelection = (stopId) => {
     setSelectedStops((prevSelectedStops) =>
       prevSelectedStops.includes(stopId)
-        ? prevSelectedStops.filter((id) => id !== stopId) // Deselect station
-        : [...prevSelectedStops, stopId] // Select station
+        ? prevSelectedStops.filter((id) => id !== stopId)
+        : [...prevSelectedStops, stopId]
     );
   };
 
   const deselectAllStops = () => {
-    setSelectedStops([]); // Clear all selected stops
+    setSelectedStops([]);
   };
 
   const selectAllStops = () => {
-    setSelectedStops(stops.map((stop) => stop.stopId)); // Select all stops
+    setSelectedStops(stops.map((stop) => stop.stopId));
   };
 
   return (
     <div className="App">
       <h1>MBTA Train Predictions</h1>
-      <button className="edit-button" onClick={toggleEditMode}>
-        {isEditMode ? "Done" : "Edit"}
-      </button>
+      <div className="button-container">
+        <button className="map-button" onClick={() => setIsMapMode(!isMapMode)}>
+          {isMapMode ? "Close Map" : "Map"}
+        </button>
+        <button className="edit-button" onClick={toggleEditMode}>
+          {isEditMode ? "Done" : "Edit"}
+        </button>
+      </div>
+
       <div className="toggle-container">
         <label className="switch">
           <input
@@ -83,8 +90,16 @@ function App() {
         <span className="direction-label">Direction: {direction}</span>
       </div>
 
-      {isEditMode ? (
-        // Edit mode: render checkboxes for station selection
+      {isMapMode ? (
+        <div className="map-container">
+          <h2>Green Line Map</h2>
+          <img
+            src={GreenLineMap} // Replace with your map image path
+            alt="Green Line Mapp"
+            className="map-image"
+          />
+        </div>
+      ) : isEditMode ? (
         <div className="edit-stops">
           <div className="select-deselect-container">
             <button className="deselect-all-button" onClick={deselectAllStops}>
@@ -95,19 +110,23 @@ function App() {
             </button>
           </div>
           {stops.map((stop) => (
-            <div key={stop.stopId} className="edit-stop">
+            <div
+              key={stop.stopId}
+              className="edit-stop"
+              onClick={() => handleStationSelection(stop.stopId)} // Handle selection by clicking anywhere
+            >
               <input
                 type="checkbox"
                 id={stop.stopId}
                 checked={selectedStops.includes(stop.stopId)}
-                onChange={() => handleStationSelection(stop.stopId)}
+                onChange={() => handleStationSelection(stop.stopId)} // Still handle change for accessibility
               />
               <label htmlFor={stop.stopId}>{stop.label}</label>
             </div>
           ))}
         </div>
+
       ) : (
-        // Normal mode: render selected stations
         orderedStops.map((stop) => (
           <TrainStop
             key={stop.stopId}
@@ -123,4 +142,3 @@ function App() {
 }
 
 export default App;
-//'b54f97fc3cd749c6acf2aa59c8831fbb
