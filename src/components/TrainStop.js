@@ -1,19 +1,16 @@
-// src/components/TrainStop/TrainStop.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './TrainStop.css'; // Ensure you have this line to import styles
+import './TrainStop.css';
 
 function TrainStop({ stopId, route, label, directionFilter }) {
   const [predictions, setPredictions] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Helper function to calculate time difference in minutes
   const calculateTimeDifference = (time) => {
     const now = new Date();
     const arrivalTime = new Date(time);
     const diffInMs = arrivalTime - now;
-    const diffInMinutes = Math.floor(diffInMs / 60000);
-    return diffInMinutes >= 0 ? diffInMinutes : null; // Return null if the time is negative
+    return Math.floor(diffInMs / 60000) >= 0 ? Math.floor(diffInMs / 60000) : null;
   };
 
   useEffect(() => {
@@ -27,20 +24,18 @@ function TrainStop({ stopId, route, label, directionFilter }) {
             'include': 'trip',
           },
           headers: {
-            'x-api-key': 'b54f97fc3cd749c6acf2aa59c8831fbb'  // Use your actual API key
-          }
+            'x-api-key': 'b54f97fc3cd749c6acf2aa59c8831fbb',
+          },
         });
 
         const newPredictions = {};
         response.data.data.forEach((prediction) => {
           const direction = prediction.attributes.direction_id === 0 ? 'Boston College' : 'Government Center';
           const timeDiff = calculateTimeDifference(prediction.attributes.arrival_time);
-          if (timeDiff !== null && direction === directionFilter) { // Check if timeDiff is not null
-            if (!newPredictions[direction]) {
-              newPredictions[direction] = [];
-            }
+          if (timeDiff !== null && direction === directionFilter) {
+            if (!newPredictions[direction]) newPredictions[direction] = [];
             if (newPredictions[direction].length < 2) {
-              newPredictions[direction].push(timeDiff <= 1 ? `Arriving`: `${timeDiff} min`);
+              newPredictions[direction].push(timeDiff <= 1 ? "Arriving" : `${timeDiff} min`);
             }
           }
         });
@@ -54,7 +49,7 @@ function TrainStop({ stopId, route, label, directionFilter }) {
     };
 
     fetchPredictions();
-    const interval = setInterval(fetchPredictions, 20000); // Refresh every 20 seconds
+    const interval = setInterval(fetchPredictions, 20000);
     return () => clearInterval(interval);
   }, [stopId, route, directionFilter]);
 
@@ -64,7 +59,7 @@ function TrainStop({ stopId, route, label, directionFilter }) {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        Object.keys(predictions).map(destination => (
+        Object.keys(predictions).map((destination) => (
           <div key={destination} className="destination">
             <h3 className="destination-label">{destination}</h3>
             <p className="times">{predictions[destination].join(", ")}</p>

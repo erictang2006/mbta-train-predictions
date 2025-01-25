@@ -94,8 +94,8 @@ function App() {
         <div className="map-container">
           <h2>Green Line Map</h2>
           <img
-            src={GreenLineMap} // Replace with your map image path
-            alt="Green Line Mapp"
+            src={GreenLineMap}
+            alt="Green Line Map"
             className="map-image"
           />
         </div>
@@ -113,19 +113,18 @@ function App() {
             <div
               key={stop.stopId}
               className="edit-stop"
-              onClick={() => handleStationSelection(stop.stopId)} // Handle selection by clicking anywhere
+              onClick={() => handleStationSelection(stop.stopId)}
             >
               <input
                 type="checkbox"
                 id={stop.stopId}
                 checked={selectedStops.includes(stop.stopId)}
-                onChange={() => handleStationSelection(stop.stopId)} // Still handle change for accessibility
+                onChange={() => handleStationSelection(stop.stopId)}
               />
               <label htmlFor={stop.stopId}>{stop.label}</label>
             </div>
           ))}
         </div>
-
       ) : (
         orderedStops.map((stop) => (
           <TrainStop
