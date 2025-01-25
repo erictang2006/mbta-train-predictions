@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TrainStop from "./components/TrainStop";
 
 function App() {
@@ -57,6 +57,14 @@ function App() {
     );
   };
 
+  const deselectAllStops = () => {
+    setSelectedStops([]); // Clear all selected stops
+  };
+
+  const selectAllStops = () => {
+    setSelectedStops(stops.map((stop) => stop.stopId)); // Select all stops
+  };
+
   return (
     <div className="App">
       <h1>MBTA Train Predictions</h1>
@@ -78,6 +86,14 @@ function App() {
       {isEditMode ? (
         // Edit mode: render checkboxes for station selection
         <div className="edit-stops">
+          <div className="select-deselect-container">
+            <button className="deselect-all-button" onClick={deselectAllStops}>
+              Deselect All
+            </button>
+            <button className="select-all-button" onClick={selectAllStops}>
+              Select All
+            </button>
+          </div>
           {stops.map((stop) => (
             <div key={stop.stopId} className="edit-stop">
               <input
@@ -107,5 +123,4 @@ function App() {
 }
 
 export default App;
-
 //'b54f97fc3cd749c6acf2aa59c8831fbb

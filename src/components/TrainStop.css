@@ -130,10 +130,45 @@ input:checked + .slider:before {
 
 .edit-stops {
   margin: 20px;
+  
 }
 
 .edit-stop {
+  background-color: #70f982;
+  border-radius: 30px;
   margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
+.select-deselect-container {
+  display: flex;
+  justify-content: left;
+  gap: 10px; /* Add space between the buttons */
+  margin-bottom: 15px;
+}
+
+.deselect-all-button,
+.select-all-button {
+  padding: 10px 20px;
+  background-color: #f44336; /* Default red for Deselect All */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.select-all-button {
+  background-color: #4caf50; /* Green for Select All */
+}
+
+.deselect-all-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+.select-all-button:hover {
+  background-color: #388e3c; /* Darker green on hover */
+}
 
