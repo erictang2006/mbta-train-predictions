@@ -12,9 +12,9 @@ import "./components/EditMode/EditMode.css";
 
 function App() {
   const [selectedRoute, setSelectedRoute] = useState(null); // Tracks selected route (e.g., Green-B)
-  const [selectedMap, setSelectedMap] = useState(GeneralMap); // Default map is the general map
+  const [selectedMap, setSelectedMap] = useState(GeneralMap); // Default map
   const [isMapMode, setIsMapMode] = useState(false); // Toggles map view
-  const [direction, setDirection] = useState("Boston College");
+  const [direction, setDirection] = useState("Boston College"); // Direction state
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedStops, setSelectedStops] = useState([
     "place-boyls",
@@ -76,8 +76,7 @@ function App() {
       setSelectedMap(GreenLineMap);
     } else if (route === "Red Line") {
       setSelectedMap(RedLineMap);
-    }
-    else if (route === "Orange Line") {
+    } else if (route === "Orange Line") {
       setSelectedMap(OrangeLineMap);
     }
     setIsMapMode(false); // Ensure map mode is off until explicitly toggled
@@ -85,9 +84,12 @@ function App() {
 
   const goToMenu = () => {
     setSelectedRoute(null); // Resets to the menu page
+    setSelectedMap(GeneralMap); // Resets the map to the general map
     setIsMapMode(false); // Turns off the map view
     setIsEditMode(false); // Turns off edit mode
   };
+
+  
 
   return (
     <div className="App">
@@ -96,9 +98,22 @@ function App() {
         toggleEditMode={() => setIsEditMode(!isEditMode)}
         isMapMode={isMapMode}
         toggleMapMode={() => setIsMapMode(!isMapMode)}
-        goToMenu={goToMenu} // New prop for Menu button
+        goToMenu={goToMenu}
       />
       <div className="content">
+        {selectedRoute && ( // Render only if a train line is selected
+          <div className="toggle-container">
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={direction === "Government Center"}
+                onChange={toggleDirection}
+              />
+              <span className="slider round"></span>
+            </label>
+            <span className="direction-label">Direction: {direction}</span>
+          </div>
+        )}
         {selectedRoute ? (
           isMapMode ? (
             <MapView selectedMap={selectedMap} />
