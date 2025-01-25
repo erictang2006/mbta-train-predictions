@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './TrainStop.css'; // Ensure you have this line to import styles
 
-function TrainStop({ stopId, route, label }) {
+function TrainStop({ stopId, route, label, directionFilter }) {
   const [predictions, setPredictions] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -33,14 +33,14 @@ function TrainStop({ stopId, route, label }) {
 
         const newPredictions = {};
         response.data.data.forEach((prediction) => {
-          const destination = prediction.attributes.direction_id === 0 ? 'Boston College' : 'Government Center';
+          const direction = prediction.attributes.direction_id === 0 ? 'Boston College' : 'Government Center';
           const timeDiff = calculateTimeDifference(prediction.attributes.arrival_time);
-          if (timeDiff !== null) { // Check if timeDiff is not null
-            if (!newPredictions[destination]) {
-              newPredictions[destination] = [];
+          if (timeDiff !== null && direction === directionFilter) { // Check if timeDiff is not null
+            if (!newPredictions[direction]) {
+              newPredictions[direction] = [];
             }
-            if (newPredictions[destination].length < 2) {
-              newPredictions[destination].push(timeDiff <= 1 ? `Arriving`: `${timeDiff} min`);
+            if (newPredictions[direction].length < 2) {
+              newPredictions[direction].push(timeDiff <= 1 ? `Arriving`: `${timeDiff} min`);
             }
           }
         });
@@ -56,7 +56,7 @@ function TrainStop({ stopId, route, label }) {
     fetchPredictions();
     const interval = setInterval(fetchPredictions, 20000); // Refresh every 20 seconds
     return () => clearInterval(interval);
-  }, [stopId, route]);
+  }, [stopId, route, directionFilter]);
 
   return (
     <div className="train-stop">

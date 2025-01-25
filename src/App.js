@@ -1,23 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TrainStop from  './components/TrainStop';
 
 function App() {
+  const [direction, setDirection] = useState("Boston College")
+
+
+  const stops = [
+    { stopId: "place-pktrm", label: "Park Street" },
+    { stopId: "place-boyls", label: "Boylston" },
+    { stopId: "place-armnl", label: "Arlington" },
+    { stopId: "place-coecl", label: "Copley" },
+    { stopId: "place-hymnl", label: "Hynes Convention Center" },
+    { stopId: "place-kencl", label: "Kenmore Station - Green Line B" },
+    { stopId: "place-bland", label: "Blandford Street" },
+    { stopId: "place-buest", label: "Boston University East" },
+    { stopId: "place-bucen", label: "Boston University Central" },
+    { stopId: "place-amory", label: "Amory Street" },
+    { stopId: "place-babck", label: "Babcock Street" },
+    { stopId: "place-brico", label: "Packard's Corner" },
+    { stopId: "place-harvd", label: "Harvard Avenue" },
+    { stopId: "place-grigg", label: "Griggs Street" },
+    { stopId: "place-alsgr", label: "Allston Street" },
+    
+  ];
+
+
+  const toggleDirection = () => {
+    setDirection(currentDirection => (currentDirection ==='Boston College' ? 'Government Center' : 'Boston College'))
+  }
+
+  const orderedStops = direction === "Boston College" ? stops : [...stops].reverse();
+
   return (
     <div className="App">
       <h1>MBTA Train Predictions</h1>
-      <TrainStop stopId="place-kencl" route="Green-B" label="Kenmore Station - Green Line B" />
-      <TrainStop stopId="place-bland" route="Green-B" label="Blandford Street" />
-      <TrainStop stopId="place-buest" route="Green-B" label="Boston University East" />
-      <TrainStop stopId="place-bucen" route="Green-B" label="Boston University Central" />
-      <TrainStop stopId="place-amory" route="Green-B" label="Amory Street" />
-      <TrainStop stopId="place-babck" route="Green-B" label="Babcock Street" />
-      <TrainStop stopId="place-brico" route="Green-B" label="Packard's Corner" />
-      <TrainStop stopId="place-harvd" route="Green-B" label="Harvard Avenue" />
-      
+      <div className="toggle-container">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={direction === "Government Center"}
+            onChange={toggleDirection}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span className="direction-label">Direction: {direction}</span>
+      </div>
 
-      
-      {/*<TrainStop stopId="place-bland" route="Green" directionId="1" label="Blandford Street (Inbound to Boston College)" /> */}
-      {/*<TrainStop stopId="place-bland" route="Green" directionId="0" label="Blandford Street (Outbound to Reservoir)" /> */}
+      {orderedStops.map(stop => (
+        <TrainStop
+          key={stop.stopId}
+          stopId={stop.stopId}
+          route="Green-B"
+          label={stop.label}
+          directionFilter={direction}
+        />
+      ))}
     </div>
   );
 }
