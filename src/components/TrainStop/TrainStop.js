@@ -3,7 +3,7 @@ import axios from "axios";
 import { calculateTimeDifference } from "../../utils/timeUtils";
 import "./TrainStop.css";
 
-function TrainStop({ stopId, route, label, directionFilter }) {
+function TrainStop({ stopId, route, label, directionFilter, color }) {
   const [predictions, setPredictions] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +42,7 @@ function TrainStop({ stopId, route, label, directionFilter }) {
   }, [stopId, route, directionFilter]);
 
   return (
-    <div className="train-stop">
+    <div className="train-stop" style={{ backgroundColor: color }}>
       <h2 className="station-label">{label}</h2>
       {loading ? (
         <p>Loading...</p>

@@ -78,6 +78,7 @@ function App() {
           stopId={stop.stopId}
           label={stop.label}
           directionFilter={direction}
+          color={routesConfig[selectedRoute].color} // Pass the route color
         />
       ));
     }
