@@ -31,7 +31,7 @@
   }
   
   .menu-icon {
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 50px; /* Larger circular icons */
